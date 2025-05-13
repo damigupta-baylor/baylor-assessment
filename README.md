@@ -10,15 +10,18 @@ The application performs the following tasks at startup:
 1. **PDF Parsing**: Reads a PDF file (`pub.pdf`) to extract HGNC gene IDs.
 2. **Metadata Extraction**: Queries external APIs (e.g., MyGene.info, NCBI ClinVar) for these hgnc gene ids
    - Fetches gene metadata i.e. aliases, genomic coordinates (hg19, hg38)
-   - Fetches all associated diseases from ClinVar. Filters the diseases - a fuzzy match is run on disease name 
-   against the pdf text, retain Clinvar diseases which meet a similarity threshold.
+   - Fetches associated diseases. Identifies matches to these diseases in the publication text, and filters the rest out.
 3. **CSV Generation**: Writes extracted data to three 
 CSV files (`hgnc_gene.csv`, `gene_aliases.csv`, `gene_diseases.csv`) in the `/app/output` directory.
 4. **Database Population**: Loads the CSV data into a PostgreSQL database with predefined tables 
 (`hgnc_gene`, `gene_aliases`, `gene_diseases`).
 
-This aims to find the 'best match' of Clinvar diseases with diseases mentioned in the text. Reasonable gene disease 
-matches are found for 4 of the genes. For the gene RRAGD, a good match is not found.  
+**Disease Matching**
+The simplest way to do this is just to use the MIM ids in the publication. But that would not cover all the diseases mentioned in the 
+paper, so I opted for another route - fetch disease names from an external source, and match against the presence of these disease names in the publication.
+- For each gene, find corresponding variants in ClinVar. Across the variants, fetch associated disease names. Of course there are various databases from which disease information could be fetched, it would
+have been good to also use MIM, MONDO, Orphanet etc. Also it would have been useful to also fetch disease aliases and the disease hierarchy. 
+- For each such disease, do a fuzzy match against the publication text to identify 'similar' diseases e.g. the publication mentions `NPHS2 (HGNC:13394)`. In ClinVar, this is linked to `NEPHROTIC SYNDROME, TYPE 2`. The publication text has a phrase `nephrotic syndrome`, which is deemed a match.
 
 ## Prerequisites
 
