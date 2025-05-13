@@ -1,0 +1,35 @@
+services:
+  mydb:
+    image: postgres
+    restart: unless-stopped
+    container_name: mydb_c
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=MYDB
+    ports:
+      - '5433:5432'
+    volumes:
+      - ./schema:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/create_tables.sql
+
+  myapp:
+    platform: linux/amd64
+    container_name: myapp_c
+    depends_on:
+      - mydb
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    environment:
+      - DB_NAME=MYDB
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_HOST=mydb
+      - DB_PORT=5432
+    volumes:
+      - ./output:/app/output
+
+volumes:
+  db:
+    driver: local
