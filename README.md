@@ -17,11 +17,13 @@ CSV files (`hgnc_gene.csv`, `gene_aliases.csv`, `gene_diseases.csv`) in the `/ap
 (`hgnc_gene`, `gene_aliases`, `gene_diseases`).
 
 **Disease Matching**  
-The simplest way to do this is would be to just use the MIM ids in the publication. But that would not cover all the diseases mentioned in the 
+The simplest way to do this would be to just use the MIM ids in the publication. But that would not cover all the diseases referenced in the 
 publication, so I opted for another route - fetch disease names from an external source, and match against the presence of these disease names in the publication.
+The steps are:
 - For each gene, find corresponding variants in ClinVar. Across the variants, fetch associated disease names. Of course there are various databases from which disease information could be fetched, it would
 have been good to also use MIM, MONDO, Orphanet etc. Also it would have been useful to also fetch disease aliases and the disease hierarchy. 
-- For each such disease, do a fuzzy match against the publication text to identify 'similar' diseases e.g. the publication mentions `NPHS2 (HGNC:13394)`. In ClinVar, this is linked to `NEPHROTIC SYNDROME, TYPE 2`. The publication text has a phrase `nephrotic syndrome`, which is deemed a match.
+- For each such disease, do a fuzzy match against the publication text to identify 'similar' diseases e.g. the publication mentions `NPHS2 (HGNC:13394)`. In ClinVar, this is linked to `NEPHROTIC SYNDROME, TYPE 2`. The publication text has a phrase `nephrotic syndrome`, which is deemed a match. But clearly this mechanism is not perfect.
+The mechanism works out for genes APOL1, COL4A3, NPHS2, HNF1A. But the mechanism fails to find a suitable match for RRAGD. In fact there are 2 incorrect associations with `Inborn genetic diseases`. So this mechanism needs to be improved.
 
 ## Prerequisites
 
