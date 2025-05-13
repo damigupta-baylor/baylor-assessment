@@ -16,9 +16,9 @@ CSV files (`hgnc_gene.csv`, `gene_aliases.csv`, `gene_diseases.csv`) in the `/ap
 4. **Database Population**: Loads the CSV data into a PostgreSQL database with predefined tables 
 (`hgnc_gene`, `gene_aliases`, `gene_diseases`).
 
-**Disease Matching**
-The simplest way to do this is just to use the MIM ids in the publication. But that would not cover all the diseases mentioned in the 
-paper, so I opted for another route - fetch disease names from an external source, and match against the presence of these disease names in the publication.
+**Disease Matching**  
+The simplest way to do this is would be to just use the MIM ids in the publication. But that would not cover all the diseases mentioned in the 
+publication, so I opted for another route - fetch disease names from an external source, and match against the presence of these disease names in the publication.
 - For each gene, find corresponding variants in ClinVar. Across the variants, fetch associated disease names. Of course there are various databases from which disease information could be fetched, it would
 have been good to also use MIM, MONDO, Orphanet etc. Also it would have been useful to also fetch disease aliases and the disease hierarchy. 
 - For each such disease, do a fuzzy match against the publication text to identify 'similar' diseases e.g. the publication mentions `NPHS2 (HGNC:13394)`. In ClinVar, this is linked to `NEPHROTIC SYNDROME, TYPE 2`. The publication text has a phrase `nephrotic syndrome`, which is deemed a match.
