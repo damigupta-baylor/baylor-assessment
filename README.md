@@ -25,21 +25,26 @@ matches are found for 4 of the genes. For the gene RRAGD, a good match is not fo
 - **Docker**: Ensure Docker and Docker Compose are installed.
 
 ## Setup and Usage
-
-**Build and Start the Services**:
+1. Install Docker and Docker Compose.
+2. Clone the repository:
+   ```bash
+   git clone <repository-url>
+   cd <repository-directory>
+   ```
+3. Build and Start the Services:
    - Run the following command to build and start the PostgreSQL database:
      ```bash
      docker-compose build && docker-compose up mydb -d
      ```
    - Wait for the database to be fully initialized (this may take a few seconds).
 
-**Run the Application**:
+4. Run the Application:
    - Start the Python application to parse the PDF, generate CSVs, and populate the database:
      ```bash
      docker-compose up myapp
      ```
 
-**Verify the Output**:
+5. Verify the Output:
    - Check the `/app/output` directory (mounted to `./output` on your machine) for the generated CSV files:
      - `hgnc_gene.csv`: Contains HGNC ID, gene name, and genomic coordinates (hg38, hg19).
      - `gene_aliases.csv`: Contains HGNC ID and gene aliases.
@@ -48,7 +53,7 @@ matches are found for 4 of the genes. For the gene RRAGD, a good match is not fo
      - Use a tool like `psql` or dBeaver.
      - Connection details: Host=`localhost`, Port=`5433`, Database=`MYDB`, User=`postgres`, Password=`postgres`.
 
-**Running Unit Tests**:
+6. Running Unit Tests:
    - Some unit tests are provided - `test_gene_metadata.py` and `test_main.py`. Note they are not complete.
    - To run the tests, ensure you are in the project directory and have the required dependencies installed:
      ```bash
