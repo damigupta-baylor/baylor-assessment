@@ -14,8 +14,9 @@ The application performs the following tasks at startup:
 3. **CSV Generation**: Writes extracted data to three 
 CSV files (`hgnc_gene.csv`, `gene_aliases.csv`, `gene_diseases.csv`) in the `/app/output` directory.
 4. **Database Population**: Loads the CSV data into a PostgreSQL database with predefined tables 
-(`hgnc_gene`, `gene_aliases`, `gene_diseases`).  
-Note : I could not use biopython because I do not have an email registered with NCBI, and it takes a couple days to get that.
+(`hgnc_gene`, `gene_aliases`, `gene_diseases`).
+  
+**Note** : I could not use biopython because I do not have an email registered with NCBI, and it takes a couple days to get that.
 
 **Disease Matching**  
 The simplest way to do this would be to just use the MIM ids in the publication. But that would not cover all the diseases referenced in the 
